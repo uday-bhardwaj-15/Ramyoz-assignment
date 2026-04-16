@@ -48,8 +48,11 @@ const isFirebaseConfigured = !!process.env.FIREBASE_DATABASE_URL;
 let db: any = null;
 
 if (isFirebaseConfigured) {
+  console.log('🔥 Initializing Firebase Realtime Database...');
   const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
   db = getDatabase(app);
+} else {
+  console.log('📂 No Firebase URL found. Using local storage Fallback.');
 }
 
 // --- Unified API ---
@@ -62,6 +65,7 @@ export const getTasks = async (): Promise<Task[]> => {
   try {
     const dbRef = ref(db);
     const snapshot = await get(child(dbRef, 'tasks'));
+    console.log('✅ Firebase read successful');
     if (snapshot.exists()) {
       const data = snapshot.val();
       if (Array.isArray(data)) {
