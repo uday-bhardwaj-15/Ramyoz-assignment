@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini Kanban Board
 
-## Getting Started
+A Trello-like Kanban Board built with Next.js 15+, React 19, and Tailwind CSS. This project was developed as part of an Intern Assignment.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Cards Management**: Create, view, edit, and delete tasks.
+- **Workflow Stages**: Three distinct columns (Pending, In Progress, Completed).
+- **Drag and Drop**: Seamlessly move tasks between stages using a desktop and mobile-friendly drag-and-drop interface.
+- **Search & Filter**: Real-time searching of tasks by title or description.
+- **Optimistic UI**: Instant UI updates on all user interactions for a snappy experience.
+- **Data Persistence**: Tasks are persisted in a local JSON database on the server.
+- **Responsive Design**: Fully responsive layout that works beautifully on mobile and desktop.
+- **Modern UI**: Clean, glassmorphic design with dark mode support and smooth animations.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: [Next.js (App Router)](https://nextjs.org/)
+- **Library**: [React 19](https://reactjs.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Drag & Drop**: [@dnd-kit](https://dndkit.com/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏁 Getting Started
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js 18.17 or later
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   cd ramyos
+   ```
 
-## Deploy on Vercel
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🏗️ Architecture
+
+- **Server Components**: Used for initial data fetching and page layout to ensure zero-bundle size for the core logic.
+- **Client Components**: Used for the interactive Kanban board, modals, and drag-and-drop state.
+- **Server Actions**: Used for all CRUD operations, providing a seamless bridge between client and server without manual API route management.
+- **Local persistence**: A custom JSON-based storage utility located in `lib/db.ts` handles task persistence.
+
+## 📝 License
+
+Distributed under the MIT License.
