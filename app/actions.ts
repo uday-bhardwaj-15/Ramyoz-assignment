@@ -23,7 +23,6 @@ export const createTask = async (data: { title: string; description: string }) =
     revalidatePath('/');
     return newTask;
   } catch (error) {
-    console.error('SERVER ACTION ERROR (createTask):', error);
     throw error;
   }
 };
@@ -47,7 +46,6 @@ export const updateTask = async (id: string, data: Partial<Task>) => {
     revalidatePath('/');
     return tasks[taskIndex];
   } catch (error) {
-    console.error('SERVER ACTION ERROR (updateTask):', error);
     throw error;
   }
 };
@@ -80,7 +78,6 @@ export const moveTask = async (id: string, newStatus: Status, newOrder: number) 
     await saveTasks(tasks);
     revalidatePath('/');
   } catch (error) {
-    console.error('SERVER ACTION ERROR (moveTask):', error);
     throw error;
   }
 };

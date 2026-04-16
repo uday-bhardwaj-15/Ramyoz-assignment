@@ -65,7 +65,6 @@ export const getTasks = async (): Promise<Task[]> => {
   try {
     const dbRef = ref(db);
     const snapshot = await get(child(dbRef, 'tasks'));
-    console.log('✅ Firebase read successful');
     if (snapshot.exists()) {
       const data = snapshot.val();
       if (Array.isArray(data)) {

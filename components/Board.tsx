@@ -38,6 +38,11 @@ export function Board({ initialTasks }: BoardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   // Sync with server state
   useEffect(() => {
@@ -193,46 +198,52 @@ export function Board({ initialTasks }: BoardProps) {
       {/* Kanban Canvas */}
       <div className="flex-1 overflow-x-auto w-full custom-scrollbar p-6 pt-2">
         <div className="flex gap-6 min-h-full items-start max-w-7xl mx-auto">
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCorners}
-            onDragStart={onDragStart}
-            onDragOver={onDragOver}
-            onDragEnd={onDragEnd}
-          >
-            {COLUMNS.map((col) => (
-              <Column
-                key={col.id}
-                id={col.id}
-                title={col.title}
-                tasks={filteredTasks
-                  .filter((t) => t.status === col.id)
-                  .sort((a, b) => a.order - b.order)}
-                onAddTask={(status) => {
-                  setEditingTask(null);
-                  // Optionally pre-fill status here if we supported it in the modal
-                  setIsModalOpen(true);
-                }}
-                onEditTask={(task) => {
-                  setEditingTask(task);
-                  setIsModalOpen(true);
-                }}
-                onDeleteTask={handleDeleteTask}
-              />
-            ))}
-            <DragOverlay dropAnimation={{
-              sideEffects: defaultDropAnimationSideEffects({ styles: { active: { opacity: '0.4' } } })
-            }}>
-              {activeTask ? (
-                <TaskCard 
-                  task={activeTask} 
-                  onEdit={() => {}} 
-                  onDelete={() => {}} 
-                  isOverlay 
+          {hasMounted ? (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCorners}
+              onDragStart={onDragStart}
+              onDragOver={onDragOver}
+              onDragEnd={onDragEnd}
+            >
+              {COLUMNS.map((col) => (
+                <Column
+                  key={col.id}
+                  id={col.id}
+                  title={col.title}
+                  tasks={filteredTasks
+                    .filter((t) => t.status === col.id)
+                    .sort((a, b) => a.order - b.order)}
+                  onAddTask={(status) => {
+                    setEditingTask(null);
+                    setIsModalOpen(true);
+                  }}
+                  onEditTask={(task) => {
+                    setEditingTask(task);
+                    setIsModalOpen(true);
+                  }}
+                  onDeleteTask={handleDeleteTask}
                 />
-              ) : null}
-            </DragOverlay>
-          </DndContext>
+              ))}
+              <DragOverlay dropAnimation={{
+                sideEffects: defaultDropAnimationSideEffects({ styles: { active: { opacity: '0.4' } } })
+              }}>
+                {activeTask ? (
+                  <TaskCard 
+                    task={activeTask} 
+                    onEdit={() => {}} 
+                    onDelete={() => {}} 
+                    isOverlay 
+                  />
+                ) : null}
+              </DragOverlay>
+            </DndContext>
+          ) : (
+            /* Static loading skeleton while mounting to prevent layout shift */
+            COLUMNS.map((col) => (
+              <div key={col.id} className="flex-shrink-0 w-full sm:w-[320px] rounded-2xl border border-neutral-100 dark:border-neutral-900 bg-white/50 dark:bg-neutral-900/50 min-h-[500px]" />
+            ))
+          )}
         </div>
       </div>
 
